@@ -9,12 +9,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { signupValidationSchema } from "@/validation/signupValidation";
+import { useAuthStore } from "@/store/authStore";
 
 export default function LoginPage() {
   const initialValues = {
@@ -41,9 +43,15 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Formik initialValues={initialValues} onSubmit={() => {}}>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={signupValidationSchema}
+            onSubmit={({ email, password }) => {
+              useAuthStore.getState().registerWithEmail(email, password);
+            }}
+          >
             <Form className="grid gap-6">
-              <div className="grid gap-1.5">
+              <div className="grid gap-1.5 relative">
                 <Label htmlFor="username">Your username</Label>
                 <Field
                   as={Input}
@@ -51,8 +59,13 @@ export default function LoginPage() {
                   id="username"
                   placeholder="John Smith"
                 />
+                <ErrorMessage
+                  name="username"
+                  component="span"
+                  className="absolute right-0 -bottom-5 font-medium text-xs text-red-600"
+                />
               </div>
-              <div className="grid gap-1.5">
+              <div className="grid gap-1.5 relative">
                 <Label htmlFor="email">Your email adress</Label>
                 <Field
                   as={Input}
@@ -60,9 +73,14 @@ export default function LoginPage() {
                   id="email"
                   placeholder="example@gmail.com"
                 />
+                <ErrorMessage
+                  name="email"
+                  component="span"
+                  className="absolute right-0 -bottom-5 font-medium text-xs text-red-600"
+                />
               </div>
-              <div className="grid gap-1.5">
-                <Label htmlFor="email">Your password</Label>
+              <div className="grid gap-1.5 relative">
+                <Label htmlFor="password">Your password</Label>
                 <Field
                   as={Input}
                   type="password"
@@ -70,10 +88,19 @@ export default function LoginPage() {
                   id="password"
                   placeholder="qwerty123"
                 />
+                <ErrorMessage
+                  name="password"
+                  component="span"
+                  className="absolute right-0 -bottom-5 font-medium text-xs text-red-600"
+                />
               </div>
               <div className="mt-2 flex max-md:flex-wrap items-center justify-center gap-2">
                 <Button className="w-full md:w-1/2">Sign Up</Button>
-                <Button className="w-full md:w-1/2 flex items-center gap-2">
+                <Button
+                  type="button"
+                  className="w-full md:w-1/2 flex items-center gap-2"
+                  onClick={() => useAuthStore.getState().loginWithGoogle()}
+                >
                   <Image
                     width="24"
                     height="24"
