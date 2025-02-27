@@ -4,6 +4,7 @@ import { Montserrat } from "next/font/google";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/common/theme-provider";
+import Header from "@/components/layouts/header";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -11,7 +12,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Spika",
+  title: "Spika AI",
   description: "Spika — Your Speaking Buddy",
 };
 
@@ -29,7 +30,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>
