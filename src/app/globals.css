@@ -126,3 +126,32 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes gradient-x {
+  0% {
+    background-position: 0% 50%;
+  }
+  20% {
+    background-position: 40% 30%;
+  }
+  40% {
+    background-position: 60% 70%;
+  }
+  60% {
+    background-position: 80% 10%;
+  }
+  80% {
+    background-position: 20% 90%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 14s ease-in-out infinite;
+  background-size: 200% 200%;
+}
+
+
+
